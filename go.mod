@@ -4,7 +4,7 @@ go 1.23.4
 
 require (
 	github.com/go-git/go-git/v5 v5.13.1
-	github.com/golangci/golangci-lint v1.63.3
+	github.com/golangci/golangci-lint v1.63.4
 	github.com/google/go-github/v65 v65.0.0
 	github.com/samber/lo v1.47.0
 	go.uber.org/automaxprocs v1.6.0
