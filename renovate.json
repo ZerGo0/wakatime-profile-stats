@@ -1,6 +1,51 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:recommended"
-  ]
+    "config:recommended",
+    ":preserveSemverRanges",
+    "docker:disable",
+    ":label(dependencies)",
+    ":automergeAll",
+    "group:recommended",
+    "group:definitelyTyped",
+    "replacements:all",
+    ":rebaseStalePrs",
+    ":semanticCommitType(chore)",
+    ":ignoreModulesAndTests",
+    ":separateMajorReleases",
+    "workarounds:all",
+    ":enableVulnerabilityAlertsWithLabel(security)"
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 8am on the first day of the month"]
+  },
+  "minimumReleaseAge": "14 days",
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["major"],
+      "labels": ["dependencies", "major"]
+    },
+    {
+      "matchUpdateTypes": ["minor"],
+      "labels": ["dependencies", "minor"]
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "labels": ["dependencies", "patch"]
+    },
+    {
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "schedule": ["before 8am on the first day of the month"]
+    },
+    {
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "schedule": ["before 8am on the first day of the month"],
+      "matchPackageNames": ["/^@types//"]
+    }
+  ],
+  "github-actions": {
+    "enabled": false
+  },
+  "prHourlyLimit": 0
 }
