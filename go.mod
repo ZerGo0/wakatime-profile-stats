@@ -1,7 +1,7 @@
 module github.com/user/wakatime-profile-stats
 
 go 1.23.4
-toolchain go1.24.1
+toolchain go1.24.2
 
 require (
 	github.com/go-git/go-git/v5 v5.13.1
