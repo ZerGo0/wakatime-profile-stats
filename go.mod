@@ -10,7 +10,7 @@ require (
 	github.com/google/go-github/v65 v65.0.0
 	github.com/google/go-github/v72 v72.0.0
 	github.com/google/go-github/v72 v72.0.0
-	github.com/samber/lo v1.50.0
+	github.com/samber/lo v1.51.0
 	go.uber.org/automaxprocs v1.6.0
 	go.uber.org/zap v1.27.0
 	golang.org/x/vuln v1.1.3
