@@ -8,7 +8,7 @@ require (
 	github.com/go-git/go-git/v5 v5.16.2
 	github.com/golangci/golangci-lint v1.64.8
 	github.com/google/go-github/v65 v65.0.0
-	github.com/google/go-github/v72 v72.0.0
+	github.com/google/go-github/v73 v73.0.0
 	github.com/google/go-github/v73 v73.0.0
 	github.com/samber/lo v1.51.0
 	go.uber.org/automaxprocs v1.6.0
