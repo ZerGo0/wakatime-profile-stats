@@ -1,6 +1,6 @@
 module github.com/user/wakatime-profile-stats
 
-go 1.23.4
+go 1.24.0
 
 toolchain go1.25.3
 
@@ -8,6 +8,7 @@ require (
 	github.com/go-git/go-git/v5 v5.16.3
 	github.com/golangci/golangci-lint v1.64.8
 	github.com/google/go-github/v65 v65.0.0
+	github.com/google/go-github/v76 v76.0.0
 	github.com/samber/lo v1.52.0
 	go.uber.org/automaxprocs v1.6.0
 	go.uber.org/zap v1.27.0
