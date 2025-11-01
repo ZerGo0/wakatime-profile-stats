@@ -5,7 +5,7 @@ go 1.23.4
 toolchain go1.25.3
 
 require (
-	github.com/go-git/go-git/v5 v5.16.2
+	github.com/go-git/go-git/v5 v5.16.3
 	github.com/golangci/golangci-lint v1.64.8
 	github.com/google/go-github/v65 v65.0.0
 	github.com/google/go-github/v74 v74.0.0
