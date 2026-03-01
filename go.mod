@@ -11,7 +11,7 @@ require (
 	github.com/google/go-github/v76 v76.0.0
 	github.com/samber/lo v1.52.0
 	go.uber.org/automaxprocs v1.6.0
-	go.uber.org/zap v1.27.0
+	go.uber.org/zap v1.27.1
 	golang.org/x/vuln v1.1.3
 )
 
