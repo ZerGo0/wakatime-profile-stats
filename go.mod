@@ -9,6 +9,7 @@ require (
 	github.com/golangci/golangci-lint v1.64.8
 	github.com/google/go-github/v65 v65.0.0
 	github.com/google/go-github/v76 v76.0.0
+	github.com/google/go-github/v82 v82.0.0
 	github.com/samber/lo v1.52.0
 	go.uber.org/automaxprocs v1.6.0
 	go.uber.org/zap v1.27.0
@@ -90,7 +91,7 @@ require (
 	github.com/golangci/revgrep v0.8.0 // indirect
 	github.com/golangci/unconvert v0.0.0-20240309020433-c5143eacb3ed // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
-	github.com/google/go-querystring v1.1.0 // indirect
+	github.com/google/go-querystring v1.2.0 // indirect
 	github.com/gordonklaus/ineffassign v0.1.0 // indirect
 	github.com/gostaticanalysis/analysisutil v0.7.1 // indirect
 	github.com/gostaticanalysis/comment v1.5.0 // indirect
