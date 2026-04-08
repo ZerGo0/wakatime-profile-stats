@@ -52,7 +52,7 @@ func run() error {
 		return err
 	}
 
-	repos, repoPath, err := getGithubRepos(githubToken)
+	currentUser, repos, repoPath, err := getGithubRepos(githubToken)
 	if err != nil {
 		return err
 	}
@@ -62,7 +62,7 @@ func run() error {
 		return err
 	}
 
-	err = updateReadmeStats(repoPath, sevenDaysStats, monthlyStats, yearlyStats, allTimeStats, repos)
+	err = updateReadmeStats(repoPath, currentUser, sevenDaysStats, monthlyStats, yearlyStats, allTimeStats, repos)
 	if err != nil {
 		return err
 	}
@@ -87,20 +87,20 @@ func retrieveEnvVars() (string, string, error) {
 	return wakaAPIKey, githubToken, nil
 }
 
-func getGithubRepos(githubToken string) ([]*go_github.Repository, string, error) {
+func getGithubRepos(githubToken string) (string, []*go_github.Repository, string, error) {
 	gClient, err := github.NewGithubClient(githubToken)
 	if err != nil {
-		return nil, "", err
+		return "", nil, "", err
 	}
 
 	user, err := gClient.GetUser()
 	if err != nil {
-		return nil, "", err
+		return "", nil, "", err
 	}
 
 	repos, err := gClient.GetRepos()
 	if err != nil {
-		return nil, "", err
+		return "", nil, "", err
 	}
 
 	remoteName := (*user.Login) + "/" + (*user.Login)
@@ -108,7 +108,7 @@ func getGithubRepos(githubToken string) ([]*go_github.Repository, string, error)
 
 	zap.L().Info("Github login was successful", zap.Int("repos", len(repos)))
 
-	return repos, repoPath, nil
+	return *user.Login, repos, repoPath, nil
 }
 
 func getWakaStats(wakaAPIKey string) (*wakatime.WakaStats, *wakatime.WakaStats, *wakatime.WakaStats, *wakatime.WakaStats, error) {
@@ -137,13 +137,13 @@ func getWakaStats(wakaAPIKey string) (*wakatime.WakaStats, *wakatime.WakaStats, 
 	return sevenDaysStats, monthlyStats, yearlyStats, allTimeStats, nil
 }
 
-func updateReadmeStats(repoPath string, sevenDaysStats, monthlyStats, yearlyStats, allTimeStats *wakatime.WakaStats, githubRepos []*go_github.Repository) error {
+func updateReadmeStats(repoPath, currentUser string, sevenDaysStats, monthlyStats, yearlyStats, allTimeStats *wakatime.WakaStats, githubRepos []*go_github.Repository) error {
 	g, err := git.SetupRepo(repoPath)
 	if err != nil {
 		return err
 	}
 
-	textStats, err := stats.ProcessStats(sevenDaysStats, monthlyStats, yearlyStats, allTimeStats, githubRepos)
+	textStats, err := stats.ProcessStats(currentUser, sevenDaysStats, monthlyStats, yearlyStats, allTimeStats, githubRepos)
 	if err != nil {
 		return err
 	}
