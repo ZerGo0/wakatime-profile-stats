@@ -15,7 +15,7 @@ const (
 	codeBlockEnd   = "```"
 )
 
-func ProcessStats(sevenDaysStats, monthlyStats, yearlyStats, allTimeStats *wakatime.WakaStats, githubRepos []*github.Repository) (*string, error) {
+func ProcessStats(currentUser string, sevenDaysStats, monthlyStats, yearlyStats, allTimeStats *wakatime.WakaStats, githubRepos []*github.Repository) (*string, error) {
 	stats := ""
 
 	if sevenDaysStats == nil && yearlyStats == nil && allTimeStats == nil {
@@ -23,10 +23,10 @@ func ProcessStats(sevenDaysStats, monthlyStats, yearlyStats, allTimeStats *wakat
 	}
 
 	stats += processCodingStats(sevenDaysStats, monthlyStats, yearlyStats, allTimeStats)
-	sevenDaysStr := processStats("Last 7 days", sevenDaysStats, githubRepos)
-	monthlyStr := processStats("Last 30 days", monthlyStats, githubRepos)
-	yearlyStr := processStats("Last 365 days", yearlyStats, githubRepos)
-	alltimeStr := processStats("All time", allTimeStats, githubRepos)
+	sevenDaysStr := processStats("Last 7 days", currentUser, sevenDaysStats, githubRepos)
+	monthlyStr := processStats("Last 30 days", currentUser, monthlyStats, githubRepos)
+	yearlyStr := processStats("Last 365 days", currentUser, yearlyStats, githubRepos)
+	alltimeStr := processStats("All time", currentUser, allTimeStats, githubRepos)
 	stats += getCombinedStats(sevenDaysStr, monthlyStr, yearlyStr, alltimeStr)
 	stats += "Updated at " + time.Now().Format("2006-01-02 15:04:05") + " (UTC) using [ZerGo0/wakatime-profile-stats](https://github.com/ZerGo0/wakatime-profile-stats)"
 
@@ -57,12 +57,12 @@ All time:                ` + codingTimeAllTime + `
 `
 }
 
-func processStats(title string, stats *wakatime.WakaStats, githubRepos []*github.Repository) string {
+func processStats(title, currentUser string, stats *wakatime.WakaStats, githubRepos []*github.Repository) string {
 	if stats == nil {
 		return ""
 	}
 
-	calculateWorkTime(stats, githubRepos)
+	calculateWorkTime(currentUser, stats, githubRepos)
 	topProjects := calculateTopProjects(stats)
 	topLanguages := calculateTopLanguages(stats)
 

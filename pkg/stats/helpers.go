@@ -2,6 +2,7 @@ package stats
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/google/go-github/v65/github"
 	"github.com/samber/lo"
@@ -18,16 +19,23 @@ const (
 	maxProjectNameLength = 25
 )
 
-func calculateWorkTime(stats *wakatime.WakaStats, githubRepos []*github.Repository) {
+func calculateWorkTime(currentUser string, stats *wakatime.WakaStats, githubRepos []*github.Repository) {
 	privateProjects := make([]string, 0)
+	ownedRepoNames := make(map[string]struct{}, len(githubRepos))
+	for _, repo := range githubRepos {
+		if repo == nil || repo.Name == nil || repo.Owner == nil || repo.Owner.Login == nil {
+			continue
+		}
+
+		if strings.EqualFold(*repo.Owner.Login, currentUser) {
+			ownedRepoNames[*repo.Name] = struct{}{}
+		}
+	}
 
 	privateWorkProjectsTotal := 0
-projectLoop:
 	for _, project := range stats.Data.Projects {
-		for _, repo := range githubRepos {
-			if project.Name == *repo.Name {
-				continue projectLoop
-			}
+		if isVisibleProject(project.Name, currentUser, ownedRepoNames) {
+			continue
 		}
 
 		privateWorkProjectsTotal += int(project.TotalSeconds)
@@ -48,6 +56,16 @@ projectLoop:
 		Text:         secondsToHumanReadable(privateWorkProjectsTotal),
 		TotalSeconds: float64(privateWorkProjectsTotal),
 	})
+}
+
+func isVisibleProject(projectName, currentUser string, ownedRepoNames map[string]struct{}) bool {
+	owner, _, ok := parseGitHubProject(projectName)
+	if ok {
+		return strings.EqualFold(owner, currentUser)
+	}
+
+	_, exists := ownedRepoNames[projectName]
+	return exists
 }
 
 func secondsToHumanReadable(privateWorkProjectsTotal int) string {
@@ -98,6 +116,36 @@ func getSpaces(spaces int) string {
 	}
 
 	return s
+}
+
+func parseGitHubProject(projectName string) (string, string, bool) {
+	trimmedProjectName := strings.TrimSpace(projectName)
+	trimmedProjectName = strings.TrimSuffix(trimmedProjectName, ".git")
+	trimmedProjectName = strings.TrimSuffix(trimmedProjectName, "/")
+
+	switch {
+	case strings.HasPrefix(trimmedProjectName, "https://github.com/"):
+		trimmedProjectName = strings.TrimPrefix(trimmedProjectName, "https://github.com/")
+	case strings.HasPrefix(trimmedProjectName, "http://github.com/"):
+		trimmedProjectName = strings.TrimPrefix(trimmedProjectName, "http://github.com/")
+	case strings.HasPrefix(trimmedProjectName, "git@github.com:"):
+		trimmedProjectName = strings.TrimPrefix(trimmedProjectName, "git@github.com:")
+	case strings.HasPrefix(trimmedProjectName, "github.com/"):
+		trimmedProjectName = strings.TrimPrefix(trimmedProjectName, "github.com/")
+	}
+
+	parts := strings.Split(trimmedProjectName, "/")
+	if len(parts) < 2 {
+		return "", "", false
+	}
+
+	owner := strings.TrimSpace(parts[0])
+	repoName := strings.TrimSpace(parts[1])
+	if owner == "" || repoName == "" {
+		return "", "", false
+	}
+
+	return owner, repoName, true
 }
 
 // Note: idk how this event happens, but it actually does...
