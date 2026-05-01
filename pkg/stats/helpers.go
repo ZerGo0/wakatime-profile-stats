@@ -17,6 +17,7 @@ const (
 	minuteInSeconds = 60
 
 	maxProjectNameLength = 25
+	githubRepoPathParts  = 2
 )
 
 func calculateWorkTime(currentUser string, stats *wakatime.WakaStats, githubRepos []*github.Repository) {
@@ -135,7 +136,7 @@ func parseGitHubProject(projectName string) (string, string, bool) {
 	}
 
 	parts := strings.Split(trimmedProjectName, "/")
-	if len(parts) < 2 {
+	if len(parts) < githubRepoPathParts {
 		return "", "", false
 	}
 
