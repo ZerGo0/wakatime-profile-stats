@@ -2,8 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-    "group:all",
-    "docker:disable",
+    "docker:disableMajor",
+    "docker:pinDigests",
+    "helpers:pinGitHubActionDigests",
+    ":configMigration",
+    "abandonments:recommended",
+    ":maintainLockFilesWeekly",
     ":semanticCommits",
     ":semanticCommitTypeAll(chore)",
     ":semanticCommitScopeDisabled"
@@ -11,22 +15,34 @@
   "timezone": "UTC",
   "schedule": ["* * 1-7 * 1"],
   "updateNotScheduled": false,
-  "automerge": true,
+  "automerge": false,
   "automergeType": "pr",
   "platformAutomerge": false,
+  "dependencyDashboard": true,
+  "dependencyDashboardOSVVulnerabilitySummary": "unresolved",
   "osvVulnerabilityAlerts": true,
   "vulnerabilityAlerts": {
     "enabled": true,
+    "automerge": true,
+    "groupName": "security updates",
+    "groupSlug": "security-updates",
     "labels": ["dependencies", "security"]
   },
   "packageRules": [
     {
-      "matchUpdateTypes": ["major", "minor", "patch", "pin", "digest", "rollback"],
-      "automerge": false
+      "matchJsonata": ["$not($exists(vulnerabilityFixVersion))"],
+      "groupName": "all dependencies",
+      "groupSlug": "all",
+      "automerge": false,
+      "minimumReleaseAge": "14 days"
+    },
+    {
+      "matchManagers": ["gomod"],
+      "postUpdateOptions": ["gomodTidy"]
     }
   ],
   "github-actions": {
-    "enabled": false
+    "enabled": true
   },
   "prHourlyLimit": 0
 }
