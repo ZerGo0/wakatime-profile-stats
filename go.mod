@@ -1,17 +1,17 @@
 module github.com/user/wakatime-profile-stats
 
-go 1.24.0
+go 1.25.0
 
-toolchain go1.25.9
+toolchain go1.26.2
 
 require (
 	github.com/go-git/go-git/v5 v5.18.0
 	github.com/golangci/golangci-lint v1.64.8
 	github.com/google/go-github/v65 v65.0.0
-	github.com/samber/lo v1.52.0
+	github.com/samber/lo v1.53.0
 	go.uber.org/automaxprocs v1.6.0
-	go.uber.org/zap v1.27.0
-	golang.org/x/vuln v1.1.3
+	go.uber.org/zap v1.27.1
+	golang.org/x/vuln v1.2.0
 )
 
 require (
@@ -199,16 +199,16 @@ require (
 	go-simpler.org/musttag v0.13.0 // indirect
 	go-simpler.org/sloglint v0.9.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/crypto v0.45.0 // indirect
+	golang.org/x/crypto v0.50.0 // indirect
 	golang.org/x/exp v0.0.0-20241217172543-b2144cdd0a67 // indirect
 	golang.org/x/exp/typeparams v0.0.0-20250210185358-939b2ce775ac // indirect
-	golang.org/x/mod v0.29.0 // indirect
-	golang.org/x/net v0.47.0 // indirect
-	golang.org/x/sync v0.18.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
-	golang.org/x/telemetry v0.0.0-20251008203120-078029d740a8 // indirect
-	golang.org/x/text v0.31.0 // indirect
-	golang.org/x/tools v0.38.0 // indirect
+	golang.org/x/mod v0.35.0 // indirect
+	golang.org/x/net v0.53.0 // indirect
+	golang.org/x/sync v0.20.0 // indirect
+	golang.org/x/sys v0.43.0 // indirect
+	golang.org/x/telemetry v0.0.0-20260409153401-be6f6cb8b1fa // indirect
+	golang.org/x/text v0.36.0 // indirect
+	golang.org/x/tools v0.44.0 // indirect
 	golang.org/x/tools/go/expect v0.1.1-deprecated // indirect
 	golang.org/x/tools/go/packages/packagestest v0.1.1-deprecated // indirect
 	google.golang.org/protobuf v1.36.5 // indirect
