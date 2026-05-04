@@ -6,8 +6,6 @@
     "docker:pinDigests",
     "helpers:pinGitHubActionDigests",
     ":configMigration",
-    "abandonments:recommended",
-    ":maintainLockFilesWeekly",
     ":semanticCommits",
     ":semanticCommitTypeAll(chore)",
     ":semanticCommitScopeDisabled"
@@ -26,15 +24,13 @@
     "automerge": true,
     "groupName": "security updates",
     "groupSlug": "security-updates",
-    "labels": ["dependencies", "security"]
+    "labels": ["dependencies", "security"],
+    "separateMajorMinor": false
   },
   "packageRules": [
     {
       "matchJsonata": ["$not($exists(vulnerabilityFixVersion))"],
-      "groupName": "all dependencies",
-      "groupSlug": "all",
-      "automerge": false,
-      "minimumReleaseAge": "14 days"
+      "enabled": false
     },
     {
       "matchManagers": ["gomod"],
